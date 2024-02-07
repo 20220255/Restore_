@@ -1,5 +1,6 @@
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
 import { Product } from "../../app/models/product";
+import { Link } from "react-router-dom";
 
 interface Props {
     prod: Product;
@@ -34,7 +35,7 @@ function ProductCard({ prod }: Props) {
             </CardContent>
             <CardActions>
                 <Button size="small">Add to cart</Button>
-                <Button size="small">View</Button>
+                <Button component={Link} to={`/catalog/${prod.id}`} size="small">View</Button>
             </CardActions>
         </Card>
     )
