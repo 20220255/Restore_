@@ -1,5 +1,6 @@
 // creating a web application host
 using API.Data;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,10 @@ var app = builder.Build();
 // pipeline is what's happening when requesting ig going to API and then when it
 // goes out of API
 // Configure the HTTP request pipeline. 
+
+app.UseMiddleware<ExceptionMiddleware>();
+
+
 if (app.Environment.IsDevelopment())
 {
     // this is the middleware

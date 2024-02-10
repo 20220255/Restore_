@@ -1,8 +1,11 @@
 import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Product } from '../../app/models/product'
+import agent from '../../app/api/agent'
+import NotFound from '../../app/errors/NotFound'
+import LoadingComponent from '../../app/layout/LoadingComponent'
+// import { AxiosError } from 'axios'
 
 export default function ProductDetails() {
 
@@ -11,26 +14,31 @@ export default function ProductDetails() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5243/api/products/${id}`)
-        setProduct(response.data)
-        setLoading(false)
-      } catch (error) {
-        setLoading(false)
-        console.log(error)
-      }
-    }
-    getProduct()
+    // const getProduct = async () => {
+    //   try {
+    //     const response = await agent.Catalog.details(Number(id))
+    //     setProduct(response)
+    //     setLoading(false)
+    //   } catch (error) {
+    //     setLoading(false)
+    //     const err = error as AxiosError
+    //     console.log(err.response)
+    //   }
+    // }
+    // getProduct()
+    agent.Catalog.details(Number(id))
+      .then(response => setProduct(response))
+      .catch(error => console.log(error))
+      .finally(() => setLoading(false))
   }, [id])
 
   if (loading) {
-    return <h3>Loading...</h3>
+    return <LoadingComponent message='Product is loading...' />
   }
 
   if (!product) {
-    return <h3>Product not found</h3>
-  }
+    return <NotFound />
+    }
 
   return (
     <Grid container spacing={6}>
