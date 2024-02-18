@@ -17,5 +17,7 @@ namespace API.Data
         // DbSet is actually our table in the database with columns representing the
         // properties in the Product Entity
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<Basket> Baskets { get; set; }
     }
 }

@@ -6,6 +6,8 @@ import { router } from "../router/Routes";
 // Also centralizing thhe request for axios.
 
 axios.defaults.baseURL = 'http://localhost:5243/api/';
+// This is required to connect and send the cookie to the API
+axios.defaults.withCredentials = true;
 
 const responseBody = (response: AxiosResponse) => response.data;
 
@@ -63,9 +65,17 @@ const TestErrors = {
     get500Error: () => request.get('Buggy/server-error'),
 }
 
+const Basket = {
+    get: () => request.get('Basket'),
+    // the empty object is required since using a post request though we're using quesry strings to pass data.
+    addItem: (productId: number, quantity = 1) => request.post(`Basket?productId=${productId}&quantity=${quantity}`, {}), 
+    removeItem: (productId: number, quantity = 1) => request.delete(`Basket?productId=${productId}&quantity=${quantity}`), 
+}
+
 const agent = {
     Catalog,
-    TestErrors
+    TestErrors,
+    Basket,
 }
 
 export default agent
